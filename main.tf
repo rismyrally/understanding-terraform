@@ -17,12 +17,12 @@ terraform {
 
 # AWS configuration options
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
 }
 
 resource "aws_instance" "instance_1" {
-  ami             = "ami-08a0d1e16fc3f61ea" # Amazon Linux 2023 AMI
-  instance_type   = "t2.micro"
+  ami             = var.ami
+  instance_type   = var.instance_type
   security_groups = [aws_security_group.instances.name]
   user_data       = <<-EOF
               #!/bin/bash
@@ -32,8 +32,8 @@ resource "aws_instance" "instance_1" {
 }
 
 resource "aws_instance" "instance_2" {
-  ami             = "ami-08a0d1e16fc3f61ea" # Amazon Linux 2023 AMI
-  instance_type   = "t2.micro"
+  ami             = var.ami
+  instance_type   = var.instance_type
   security_groups = [aws_security_group.instances.name]
   user_data       = <<-EOF
               #!/bin/bash
@@ -43,7 +43,7 @@ resource "aws_instance" "instance_2" {
 }
 
 resource "aws_s3_bucket" "bucket" {
-  bucket_prefix = "understanding-terraform-tf-state"
+  bucket_prefix = var.bucket_prefix
   force_destroy = true
 }
 
@@ -184,12 +184,12 @@ resource "aws_lb" "load_balancer" {
 }
 
 resource "aws_route53_zone" "primary" {
-  name = "understanding-terraform.dev"
+  name = var.domain
 }
 
 resource "aws_route53_record" "root" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "understanding-terraform.dev"
+  name    = var.domain
   type    = "A"
 
   alias {
@@ -203,12 +203,12 @@ resource "aws_route53_record" "root" {
 resource "aws_db_instance" "db_instance" {
   allocated_storage          = 10
   storage_type               = "standard"
-  db_name                    = "mydb"
+  db_name                    = var.db_name
   engine                     = "postgres"
   engine_version             = "16.3"
   instance_class             = "db.t3.micro"
-  username                   = "foo"
-  password                   = "foobarbaz"
+  username                   = var.db_user
+  password                   = var.db_pass
   skip_final_snapshot        = true
   auto_minor_version_upgrade = true # This allows any minor version within the specified major engine_version above. However, it also enables AWS to automatically upgrade the minor version of your database
 }
