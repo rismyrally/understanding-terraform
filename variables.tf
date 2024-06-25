@@ -31,8 +31,8 @@ variable "instance_type" {
 }
 
 # S3 Variables
-variable "bucket_prefix" {
-  description = "The prefix for the S3 bucket name used for application data storage."
+variable "bucket_name" {
+  description = "The name for the S3 bucket used for application data storage."
   type        = string
 }
 

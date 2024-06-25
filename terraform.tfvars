@@ -1,7 +1,7 @@
 app_name         = "web-app"
 environment_name = "prod"
 instance_type    = "t2.micro"
-bucket_prefix    = "understanding-terraform-data"
+bucket_name      = "understanding-terraform-data"
 domain           = "understanding-terraform.dev"
 create_dns_zone  = true
 db_name          = "mydb"

@@ -27,7 +27,7 @@ module "web_app" {
   app_name         = var.app_name
   environment_name = var.environment_name
   instance_type    = var.instance_type
-  bucket_prefix    = var.bucket_prefix
+  bucket_name      = var.bucket_name
   create_dns_zone  = var.create_dns_zone
   domain           = var.domain
   db_name          = var.db_name
